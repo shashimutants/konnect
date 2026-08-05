@@ -50,7 +50,15 @@ ul {
 
 .section-dark {
   background: #1a1a2e;
+  color: rgba(255,255,255,0.85);
+}
+
+.section-dark .section-title {
   color: #fff;
+}
+
+.section-dark .section-subtitle {
+  color: #e74c3c;
 }
 
 .section-title {
@@ -64,13 +72,18 @@ ul {
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #0274be;
+  color: #e74c3c;
   font-weight: 600;
   margin-bottom: 10px;
 }
 
 .text-center {
   text-align: center;
+}
+
+.section-heading-center {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .btn {
@@ -226,6 +239,21 @@ ul {
   gap: 6px;
 }
 
+.has-dropdown > a::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.has-dropdown:hover > a::after,
+.has-dropdown.open > a::after {
+  transform: rotate(225deg) translateY(1px);
+}
+
 .dropdown-toggle {
   display: none;
   background: none;
@@ -298,7 +326,6 @@ ul {
 }
 
 .mega-menu {
-  display: none;
   position: absolute;
   top: 100%;
   left: 0;
@@ -309,11 +336,36 @@ ul {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
   z-index: 1000;
   padding: 24px 30px;
+  display: flex;
+  gap: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s linear 0.22s;
+  pointer-events: none;
 }
 
 .mega-menu-item:hover > .mega-menu {
-  display: flex;
-  gap: 24px;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: auto;
+}
+
+/* Hover bridge so the dropdown stays open while moving the mouse */
+.mega-menu-item::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 1001;
+}
+
+.mega-menu-item:hover::after {
+  height: 12px;
 }
 
 .mega-menu-col {
@@ -356,19 +408,36 @@ ul {
 
 .mega-menu-category ul li a {
   display: block;
-  padding: 3px 0;
+  position: relative;
+  padding: 3px 0 3px 14px;
   font-size: 0.78rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.78) !important;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, padding-left 0.2s ease;
   line-height: 1.4 !important;
   height: auto !important;
 }
 
+.mega-menu-category ul li a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 2px;
+  background: #e74c3c;
+  transition: width 0.2s ease;
+}
+
 .mega-menu-category ul li a:hover {
   color: #e74c3c !important;
-  padding-left: 4px;
+  padding-left: 20px;
+}
+
+.mega-menu-category ul li a:hover::before {
+  width: 8px;
 }
 
 .mega-menu-view-all {
@@ -383,9 +452,20 @@ ul {
   transition: all 0.2s ease;
 }
 
+.mega-menu-view-all::after {
+  content: '→';
+  margin-left: 4px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
 .mega-menu-view-all:hover {
   color: #ffffff !important;
   text-decoration: underline;
+}
+
+.mega-menu-view-all:hover::after {
+  transform: translateX(3px);
 }
 
 /* ===== HERO SLIDER ===== */
@@ -621,6 +701,84 @@ ul {
   line-height: 1.7;
 }
 
+/* ===== MODULAR ENGAGEMENT ===== */
+.modular-section {
+  text-align: center;
+}
+
+.modular-intro {
+  max-width: 700px;
+  margin: 0 auto 50px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.75);
+}
+
+.modular-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.modular-step {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 35px 28px;
+  text-align: left;
+  transition: transform 0.2s;
+}
+
+.modular-step:hover {
+  transform: translateY(-4px);
+}
+
+.modular-step-num {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #e74c3c;
+  background: rgba(231,76,60,0.15);
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+}
+
+.modular-step h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.modular-step p {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+}
+
+.modular-callout {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 30px 35px;
+  border-left: 3px solid #e74c3c;
+  background: rgba(255,255,255,0.04);
+  border-radius: 0 8px 8px 0;
+  text-align: center;
+}
+
+.modular-callout p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
 /* ===== ABOUT SNIPPET ===== */
 .about-snippet {
   display: grid;
@@ -724,7 +882,8 @@ ul {
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0;
+  gap: 8px;
+  padding: 8px;
 }
 
 .portfolio-item {
@@ -1267,8 +1426,11 @@ ul {
     padding-left: 40px;
     font-size: 0.8rem;
   }
+  .has-dropdown > a::after,
+  .mega-menu-item::after {
+    display: none;
+  }
   .mega-menu {
-    display: none !important;
     position: static;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.03);
@@ -1277,6 +1439,12 @@ ul {
     padding: 15px 20px;
     width: 100%;
     transform: none;
+    display: none;
+    gap: 0;
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+    pointer-events: auto;
   }
   .has-dropdown.open > .mega-menu {
     display: flex !important;
@@ -1289,29 +1457,19 @@ ul {
     margin-bottom: 12px;
   }
   .mega-menu-category h4 {
-    color: #e91e63;
+    color: #e74c3c;
     font-size: 0.85rem;
-  }
-  .mega-menu-category ul li a {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.8rem;
-  }
-  .mega-menu-category ul li a:hover {
-    color: #e91e63;
-  }
-  .mega-menu-view-all {
-    color: rgba(255, 255, 255, 0.6);
   }
   .mega-menu-category ul li a {
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.78rem;
-    padding: 4px 0;
+    padding: 4px 0 4px 14px;
   }
   .mega-menu-category ul li a:hover {
     color: #e74c3c;
   }
-  .mega-menu-category ul li a::before {
-    color: rgba(255, 255, 255, 0.2);
+  .mega-menu-view-all {
+    color: rgba(255, 255, 255, 0.6);
   }
   .mega-menu-cta {
     border-color: #e74c3c;
@@ -1364,6 +1522,15 @@ ul {
     gap: 10px;
     text-align: center;
     padding: 16px 24px;
+  }
+  .modular-steps {
+    grid-template-columns: 1fr;
+  }
+  .modular-step {
+    padding: 24px 20px;
+  }
+  .modular-callout {
+    padding: 20px;
   }
 }
 

@@ -61,17 +61,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function animateCounters() {
     statNumbers.forEach(function (el) {
-      var target = parseInt(el.getAttribute('data-target'), 10);
+      var raw = el.getAttribute('data-target');
+      var target = parseFloat(raw);
       var suffix = el.getAttribute('data-suffix') || '';
       var duration = 2000;
       var startTime = null;
 
-      function updateCounter(currentTime) {
-        if (!startTime) startTime = currentTime;
-        var elapsed = currentTime - startTime;
+      function updateCounter(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var elapsed = timestamp - startTime;
         var progress = Math.min(elapsed / duration, 1);
-        var currentValue = Math.floor(progress * target);
+        var currentValue;
+
+        if (raw.indexOf('.') !== -1) {
+          currentValue = (progress * target).toFixed(1);
+          if (currentValue.endsWith('.0')) currentValue = currentValue.slice(0, -2);
+        } else {
+          currentValue = Math.floor(progress * target);
+        }
+
         el.textContent = currentValue + suffix;
+
         if (progress < 1) {
           requestAnimationFrame(updateCounter);
         } else {
@@ -93,8 +103,14 @@ document.addEventListener('DOMContentLoaded', function () {
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 });
     observer.observe(statsSection);
+    // Fallback: if observer doesn't fire within 4s, animate anyway
+    setTimeout(function () {
+      if (statNumbers[0].textContent === '0' || statNumbers[0].textContent === '0+') {
+        animateCounters();
+      }
+    }, 4000);
   }
 
   // Sticky header - show bg only after scroll
