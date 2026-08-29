@@ -6,7 +6,7 @@
   <title>Konnect Marketing USA - Advertising & Marketing Agency</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -110,7 +110,7 @@
           </div>
         </li>
         <li class="has-dropdown mega-menu-item">
-          <a href="portfolio.html">Products</a>
+          <a href="products.html">Products</a>
           <button class="dropdown-toggle" aria-label="Toggle submenu">
             <svg viewBox="0 0 256 512"><path d="M118.6 105.4l144 144c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0l-98.6-98.6-98.6 98.6c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l144-144c9.4-9.4 24.6-9.4 33.9 0z"/></svg>
           </button>
@@ -205,14 +205,17 @@
 
 <main>
   <!-- HERO SLIDER -->
-  <section class="hero-slider">
+  <section class="hero-slider" aria-label="Featured Banner Carousel">
     <div class="slider-track">
       <div class="slide active" style="background-image: url('images/bg-08-free-img.jpg');">
         <div class="slide-content">
           <p class="slide-subtitle">ONE PARTNER. EVERY CHANNEL. EVERY STATE.</p>
           <h1 class="slide-title">Start Regional.<br>Scale National.<br>Never Switch Vendors.</h1>
           <div class="slide-actions">
-            <a href="contact.html" class="btn btn-outline-white">Get A Quote</a>
+            <a href="contact.html" class="btn btn-outline-white">Get Started Now</a>
+            <a href="services.html" class="play-btn" aria-label="Play Reel">
+              <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>
+            </a>
           </div>
         </div>
       </div>
@@ -221,24 +224,45 @@
           <p class="slide-subtitle">PHYSICAL MEDIA. DIGITAL PROOF.</p>
           <h1 class="slide-title">Every Billboard.<br>Every Screen.<br>One Dashboard.</h1>
           <div class="slide-actions">
-            <a href="contact.html" class="btn btn-outline-white">Get A Quote</a>
+            <a href="contact.html" class="btn btn-outline-white">Get Started Now</a>
+            <a href="services.html" class="play-btn" aria-label="Play Reel">
+              <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>
+            </a>
           </div>
         </div>
       </div>
       <div class="slide" style="background-image: url('images/bg-07-free-img.jpg');">
         <div class="slide-content">
           <p class="slide-subtitle">MODULAR ENGAGEMENT. ZERO VENDOR SWITCHING.</p>
-          <h1 class="slide-title">Grow at Your<br>Pace. Never<br>Start Over.</h1>
+          <h1 class="slide-title">Grow at Your Pace.<br>Never Start Over.</h1>
           <div class="slide-actions">
-            <a href="contact.html" class="btn btn-outline-white">Get A Quote</a>
+            <a href="contact.html" class="btn btn-outline-white">Get Started Now</a>
+            <a href="services.html" class="play-btn" aria-label="Play Reel">
+              <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>
+            </a>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Slider Navigation Controls -->
+    <button class="slider-arrow slider-prev" aria-label="Previous slide">
+      <svg viewBox="0 0 256 512" aria-hidden="true"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6 0-34z"/></svg>
+    </button>
+    <button class="slider-arrow slider-next" aria-label="Next slide">
+      <svg viewBox="0 0 256 512" aria-hidden="true"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6 0 34z"/></svg>
+    </button>
+
+    <!-- Slider Pagination Dots -->
+    <div class="slider-dots" role="tablist" aria-label="Slide indicators">
+      <button class="dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Go to slide 1"></button>
+      <button class="dot" data-slide="1" role="tab" aria-selected="false" aria-label="Go to slide 2"></button>
+      <button class="dot" data-slide="2" role="tab" aria-selected="false" aria-label="Go to slide 3"></button>
+    </div>
   </section>
 
   <!-- SERVICES -->
-  <section class="section">
+  <section class="section capabilities-section">
     <div class="container">
       <div class="section-heading-center">
         <h6 class="section-subtitle">Core Capabilities</h6>

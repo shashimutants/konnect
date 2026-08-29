@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("EDITOR") // SUPER_ADMIN, EDITOR, AUTHOR
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  mediaUploads   Media[]
+  pageRevisions  PageRevision[]
+}
+
+model Page {
+  id               String         @id @default(cuid())
+  title            String
+  slug             String
+  template         String         @default("default")
+  status           String         @default("DRAFT") // DRAFT, PUBLISHED, SCHEDULED
+  language         String         @default("en-US")
+  localeGroupId    String?        // Links translated versions of the same page together
+  isHome           Boolean        @default(false)
+  
+  // SEO & Social Meta
+  seoTitle         String?
+  seoDescription   String?
+  focusKeywords    String?
+  canonicalUrl     String?
+  ogTitle          String?
+  ogDescription    String?
+  ogImageUrl       String?
+  twitterCard      String?        @default("summary_large_image")
+  robotsIndex      Boolean        @default(true)
+  robotsFollow     Boolean        @default(true)
+  schemaType       String?        @default("WebPage")
+  customSchemaJson String?
+  
+  // Relations
+  blocks           ContentBlock[]
+  revisions        PageRevision[]
+  publishedAt      DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@unique([slug, language])
+}
+
+model ContentBlock {
+  id                String   @id @default(cuid())
+  pageId            String
+  page              Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  blockType         String
+  orderIndex        Int      @default(0)
+  contentJson       String   // JSON string containing block specific fields
+  isVisible         Boolean  @default(true)
+  
+  // Scroll Entrance Animation
+  animationType     String?  @default("fade-in") // none, fade-in, slide-up, slide-down, slide-left, slide-right, zoom-in, bounce-in, flip-in
+  animationDuration String?  @default("normal")  // fast, normal, slow
+  animationDelay    Int?     @default(0)         // 0, 100, 200, 300, 400, 500, 600
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model PageRevision {
+  id            String   @id @default(cuid())
+  pageId        String
+  page          Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  revisionNum   Int                            // Auto-incrementing per page
+  snapshotJson  String                         // Full JSON snapshot of page metadata + all blocks
+  changeNote    String?                        // Optional editor note
+  createdById   String?
+  createdBy     User?    @relation(fields: [createdById], references: [id])
+  createdAt     DateTime @default(now())
+}
+
+model SectionTemplate {
+  id                   String   @id @default(cuid())
+  name                 String
+  category             String   @default("General") // Heroes, Narrative, Capabilities, Metrics, Interactive
+  description          String?
+  blockType            String
+  thumbnailUrl         String?
+  defaultContentJson   String
+  defaultAnimationJson String?  @default("{\"type\":\"fade-in\",\"duration\":\"normal\",\"delay\":0}")
+  isDefault            Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Menu {
+  id           String     @id @default(cuid())
+  name         String
+  locationSlug String     @unique // "header-main", "footer-services", "footer-products"
+  items        MenuItem[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model MenuItem {
+  id         String     @id @default(cuid())
+  menuId     String
+  menu       Menu       @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  parentId   String?
+  parent     MenuItem?  @relation("MenuHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children   MenuItem[] @relation("MenuHierarchy")
+  title      String
+  url        String
+  icon       String?
+  badge      String?
+  orderIndex Int        @default(0)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  publicId     String   @unique
+  url          String                          // Original upload URL
+  thumbnailUrl String?                         // Auto-generated 300px thumbnail
+  mediumUrl    String?                         // Auto-generated 800px medium
+  filename     String
+  format       String   @default("jpg")
+  mimeType     String   @default("image/jpeg") // Full MIME type
+  size         Int      @default(0)
+  width        Int      @default(0)
+  height       Int      @default(0)
+  altText      String?
+  caption      String?
+  folder       String   @default("general")    // Organizational folder
+  uploadedById String?                         // Track who uploaded
+  uploadedBy   User?    @relation(fields: [uploadedById], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  group     String   @default("general")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

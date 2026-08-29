@@ -1,0 +1,119 @@
+/* Minimal global reset to complement style.css */
+@import url('/css/style.css');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   ENTRANCE ANIMATION ENGINE & SCROLL EFFECTS
+   ========================================================================== */
+
+.animated-section-wrapper {
+  position: relative;
+  will-change: transform, opacity;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.anim-duration-fast {
+  transition-duration: 400ms !important;
+  animation-duration: 400ms !important;
+}
+
+.anim-duration-normal {
+  transition-duration: 800ms !important;
+  animation-duration: 800ms !important;
+}
+
+.anim-duration-slow {
+  transition-duration: 1200ms !important;
+  animation-duration: 1200ms !important;
+}
+
+/* 1. Fade In */
+.anim-fade-in.anim-initial {
+  opacity: 0;
+}
+.anim-fade-in.anim-active {
+  opacity: 1;
+}
+
+/* 2. Slide Up */
+.anim-slide-up.anim-initial {
+  opacity: 0;
+  transform: translate3d(0, 50px, 0);
+}
+.anim-slide-up.anim-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 3. Slide Down */
+.anim-slide-down.anim-initial {
+  opacity: 0;
+  transform: translate3d(0, -50px, 0);
+}
+.anim-slide-down.anim-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 4. Slide Left */
+.anim-slide-left.anim-initial {
+  opacity: 0;
+  transform: translate3d(-60px, 0, 0);
+}
+.anim-slide-left.anim-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 5. Slide Right */
+.anim-slide-right.anim-initial {
+  opacity: 0;
+  transform: translate3d(60px, 0, 0);
+}
+.anim-slide-right.anim-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 6. Zoom In */
+.anim-zoom-in.anim-initial {
+  opacity: 0;
+  transform: scale3d(0.92, 0.92, 1);
+}
+.anim-zoom-in.anim-active {
+  opacity: 1;
+  transform: scale3d(1, 1, 1);
+}
+
+/* 7. Bounce In */
+.anim-bounce-in.anim-initial {
+  opacity: 0;
+  transform: scale3d(0.85, 0.85, 1);
+}
+.anim-bounce-in.anim-active {
+  opacity: 1;
+  transform: scale3d(1, 1, 1);
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 8. Flip In (3D) */
+.anim-flip-in.anim-initial {
+  opacity: 0;
+  transform: perspective(1000px) rotateX(25deg);
+}
+.anim-flip-in.anim-active {
+  opacity: 1;
+  transform: perspective(1000px) rotateX(0deg);
+}
+
