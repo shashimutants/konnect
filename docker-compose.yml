@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  konnect-cms:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: konnect-marketing-cms
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.docker
+    volumes:
+      # Persist SQLite Database across container restarts
+      - konnect_db_data:/app/prisma
+      # Persist uploaded local media files
+      - konnect_uploads_data:/app/public/uploads
+    environment:
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - NODE_ENV=production
+
+volumes:
+  konnect_db_data:
+    driver: local
+  konnect_uploads_data:
+    driver: local
